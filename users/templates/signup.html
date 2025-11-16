@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Signup Page</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #F5F5F5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 400px;
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+
+    .form-box h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .input-group {
+      margin-bottom: 15px;
+    }
+
+    .input-group label {
+      display: block;
+      font-weight: 500;
+      color: #555;
+      margin-bottom: 5px;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    .input-group input:focus {
+      border-color: #6c5ce7;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      background: #0984e3;
+      color: white;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      background: #0765b5;
+    }
+
+    .link-text {
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    .link-text a {
+      color: #0984e3;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .message {
+      text-align: center;
+      margin-bottom: 15px;
+      font-weight: 500;
+    }
+
+    .error {
+      color: #e74c3c;
+      text-align:center;
+    }
+
+    .success {
+      color: #27ae60;
+    }
+
+    .title {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #0984e3;
+    }
+  </style>
+</head>
+<body>
+    
+  <div class="container">
+    <h1 class="title">Finance Tracker</h1>
+    <form class="form-box" method="POST" action="{% url 'signup' %}" id="signupForm">
+         {% csrf_token %}
+      <h2>Sign Up</h2>
+        {% if error %}
+        <p class="error">{{ error }}</p>
+         {% endif %}
+      <div class="input-group">
+        <label for="name">Username</label>
+        <input type="text" id="name" name="username" placeholder="Enter Username" required />
+      </div>
+
+      <div class="input-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required />
+      </div>
+
+      <div class="input-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Create password" required />
+      </div>
+
+      <div class="input-group">
+        <label for="confirmpassword">Confirm Password</label>
+        <input type="password" id="confirmpassword" name="confirmpassword" placeholder="Confirm password" required />
+      </div>
+
+      <input type="submit" class="btn" value="Sign Up" />
+
+      <p class="link-text">
+        Already have an account? <a href="{% url 'login' %}">Login</a>
+      </p>
+    </form>
+  </div>
+</body>
+</html>

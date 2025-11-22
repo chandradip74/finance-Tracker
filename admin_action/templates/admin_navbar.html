@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .admin-navbar {
+    background: #222;
+    padding: 12px 0;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    box-shadow: 0px 3px 10px rgba(0,0,0,0.25);
+  }
+
+  .nav-container {
+    display: flex;
+    gap: 25px;
+  }
+
+  .admin-navbar a {
+    text-decoration: none;
+    color: #f1f1f1;
+    font-weight: 500;
+    font-size: 15px;
+    padding: 10px 15px;
+    border-radius: 6px;
+    transition: 0.25s ease-in-out;
+  }
+
+  .admin-navbar a:hover,
+  .admin-navbar a.active {
+    background: #007bff;
+    color: #fff;
+  }
+</style>
+
+</head>
+<body>
+
+<nav class="admin-navbar">
+  <div class="nav-container">
+    <a href="#">See Users</a>
+    <a href="#">View Users Transaction</a>
+    <a href="#">Add Category</a>
+    <a href="#">Update Category</a>
+    <a href="#">Delete Category</a>
+  </div>
+</nav>
+    {% block content %}
+
+    {% endblock %}
+</body>
+</html>

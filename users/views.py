@@ -3,7 +3,7 @@ from django.http import HttpRequest,HttpResponse
 import re
 from .models import User
 from django.contrib.auth.hashers import make_password, check_password
-from operation.views import home
+from operation.views import dashboard
 # Create your views here.
 
 def validemail(email: str) -> bool:
@@ -40,7 +40,7 @@ def validpassword(password: str) -> bool:
 def login(request :HttpRequest):
     if request.method == "GET":
         if request.COOKIES.get('email'):
-            return redirect("home")
+            return redirect("dashboard")
         return render(request,"login.html")
     
     email = request.POST.get("email")
@@ -56,15 +56,17 @@ def login(request :HttpRequest):
     if not passwordmatch:
        return render(request,"login.html", {'error':'Wrong Email Or Password..'})
     
-    response = redirect("home")
+    response = redirect("dashboard")
     response.set_cookie('email', email)
+    response.set_cookie('username', user.username)
+    response.set_cookie('userrole', user.userrole)
     return response
           
     
 def singup(request:HttpRequest):
     if request.method == "GET":
       if request.COOKIES.get('email') is not None:
-          return redirect("home")
+          return redirect("dashboard")
       return render(request,"signup.html")
     
     username = request.POST.get("username")
@@ -100,12 +102,6 @@ def singup(request:HttpRequest):
     )
 
     return redirect("login")
-
-def home(request:HttpRequest):
-  if request.COOKIES.get('email') is None:
-      return redirect("login")
-  return redirect("home")
-
 def logout(request:HttpRequest):
     response = redirect("login")
     response.delete_cookie('email')

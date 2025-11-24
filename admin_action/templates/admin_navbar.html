@@ -1,64 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Expense Tracker - Dashboard</title>
 
-<!-- Google Font -->
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
-<style>
-  body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Poppins', sans-serif;
-  }
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Inter", sans-serif;
+    }
 
-  .admin-navbar {
-    background: #222;
-    padding: 12px 0;
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    box-shadow: 0px 3px 10px rgba(0,0,0,0.25);
-  }
+    body {
+      background-color: #f8f9fa;
+      color: #222;
+      text-align: center;
+    }
 
-  .nav-container {
-    display: flex;
-    gap: 25px;
-  }
+    .header {
+      margin-top: 40px;
+      margin-bottom: 20px;
+    }
 
-  .admin-navbar a {
-    text-decoration: none;
-    color: #f1f1f1;
-    font-weight: 500;
-    font-size: 15px;
-    padding: 10px 15px;
-    border-radius: 6px;
-    transition: 0.25s ease-in-out;
-  }
+    .header h1 {
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
 
-  .admin-navbar a:hover,
-  .admin-navbar a.active {
-    background: #007bff;
-    color: #fff;
-  }
-</style>
+    .header p {
+      color: #555;
+      font-size: 16px;
+    }
 
+    .navbar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      padding: 20px 10px;
+      width: fit-content;
+      margin: 0 auto;
+      background: none;
+      box-shadow: none;
+    }
+
+    .nav-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 500;
+      border: 1px solid #ddd;
+      background-color: transparent;
+      color: #000;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .nav-btn:hover {
+      background-color: #e9ecef;
+      transform: translateY(-1px);
+    }
+
+    .nav-btn.active {
+      background-color: #007bff;
+      color: #fff;
+      border: 1px solid #007bff;
+    }
+
+    .nav-btn i {
+      font-size: 16px;
+    }
+
+    .logout-icon {
+      position: absolute;
+      top: 20px;
+      right: 25px;
+      font-size: 22px;
+      color: #333;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+
+    .logout-icon:hover {
+      color: #007bff;
+    }
+
+    .content {
+      margin-top: 50px;
+    }
+    .username{
+      color: #007bff;
+    }
+  </style>
 </head>
 <body>
-
-<nav class="admin-navbar">
-  <div class="nav-container">
-    <a href="#">See Users</a>
-    <a href="#">View Users Transaction</a>
-    <a href="#">Add Category</a>
-    <a href="#">Update Category</a>
-    <a href="#">Delete Category</a>
+ <!-- back to home page icon in left side-->
+  <div style="position: absolute; top: 20px; left: 25px;">
+    <a href="{% url 'dashboard' %}" class="nav-btn" title="Home">
+      <i class="fa-solid fa-house"></i>
+    </a>
   </div>
-</nav>
+  <a href="{% url 'logout' %}" class="logout-icon" title="Logout">
+    <i class="fa-solid fa-right-from-bracket"></i>
+  </a>
+  
+  <div class="header">
+    <h1>Welcome to Finance Tracker, <span class="username"><i>{{ request.COOKIES.username }}</i></span>.</h1>
+    <p>Manage Your User,Category and analysis Finance.</p>
+  </div>
+
+  <div class="navbar">
+    <a href="{% url 'admin_dashboard' %}" class="nav-btn"><i class="fa-solid fa-house-user"></i> Dashboard</a>
+    <a href="{% url 'user_manage' %}" class="nav-btn"><i class="fa-solid fa-plus"></i> User Management</a>
+    <a href="{% url 'add_category' %}" class="nav-btn"><i class="fa-solid fa-list"></i> Add Category </a>
+    <a href="{% url 'category_manage' %}" class="nav-btn"><i class="fa-solid fa-money-bill-transfer"></i> Manage Category</a> 
+    
+  </div>
+
+  <div class="content">
     {% block content %}
 
-    {% endblock %}
+    {% endblock %} <!-- footer -->
+  </div>
+  
 </body>
 </html>
+
+

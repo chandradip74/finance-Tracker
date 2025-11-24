@@ -1,0 +1,116 @@
+{% extends "admin_navbar.html" %}
+{% block content %}
+
+<style>
+  .form-wrapper {
+    background: #fff;
+    max-width: 420px;
+    margin: 40px auto;
+    padding: 28px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 15px rgba(0,0,0,0.08);
+    text-align: left;
+  }
+
+  .form-wrapper h2 {
+    font-size: 24px;
+    margin-bottom: 18px;
+    text-align: center;
+    color: #007bff;
+    font-weight: 600;
+  }
+
+  label {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 6px;
+    display: block;
+    color: #333;
+  }
+
+  select,
+  input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 18px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 15px;
+    outline: none;
+    transition: 0.3s ease;
+  }
+
+  select:focus,
+  input:focus {
+    border-color: #007bff;
+  }
+
+  .add-btn {
+    width: 100%;
+    padding: 12px;
+    background: #007bff;
+    color: #fff;
+    border: none;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: 0.3s ease;
+  }
+
+  .add-btn:hover {
+    background: #0056b3;
+  }
+  .footer {
+    margin-top: 50px;
+    padding: 15px 0;
+    text-align: center;
+  }
+  .footer-text {
+    color: #000;
+    font-size: 14px;
+  }
+  .error {
+    color: red;
+    font-weight: 500;
+    text-align:center;
+    margin-bottom: 15px;
+  }
+  .success {
+    color: green;
+    font-weight: 500;
+    text-align:center;
+    margin-bottom: 15px;
+  }
+</style>
+
+<div class="form-wrapper">
+  <h2>Add Category</h2>
+  
+  {% if error %}
+    <p class="error">{{ error }}</p>
+  {% endif %}
+  {% if success %}
+    <p class="success">{{ success }}</p>
+  {% endif %}
+  <form method="POST" action="{% url 'add_category' %}">
+    {% csrf_token %}
+
+    <label>Category Type</label>
+    <select name="category_type" required>
+      <option value="" disabled selected>Select Type</option>
+      <option value="Expense">Expense</option>
+      <option value="Income">Income</option>
+    </select>
+
+    <label>Enter Category Name</label>
+    <input type="text" name="category_name" placeholder="Ex: Food, Salary, Travel" required />
+
+    <button class="add-btn" type="submit">Add Category</button>
+  </form>
+</div>
+<footer class="footer">
+    <p class="footer-text">&copy; 2025 Finance Tracker. All rights reserved.</p>
+  </footer>
+
+{% endblock %}

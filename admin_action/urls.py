@@ -5,4 +5,6 @@ urlpatterns = [
    path('add_category/',views.add_category,name='add_category'),
    path('user_manage/',views.user_manage,name='user_manage'),
    path('category_manage/',views.category_manage,name='category_manage'),
+   path('delete_category/<int:cat_id>/',views.delete_category,name="delete_category"),
+   path('update_category/<int:cat_id>/',views.update_category,name="update_category")
 ]

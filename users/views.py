@@ -58,6 +58,7 @@ def login(request :HttpRequest):
     
     response = redirect("dashboard")
     response.set_cookie('email', email)
+    response.set_cookie('userid',user.userid)
     response.set_cookie('username', user.username)
     response.set_cookie('userrole', user.userrole)
     return response

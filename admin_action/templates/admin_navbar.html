@@ -115,7 +115,7 @@
   </a>
   
   <div class="header">
-    <h1>Welcome to Finance Tracker, <span class="username"><i>{{ request.COOKIES.username }}</i></span>.</h1>
+    <h1>Welcome to Finance Tracker, <span class="username"><i>{{ request.COOKIES.username |capfirst }}</i></span>.</h1>
     <p>Manage Your User,Category and analysis Finance.</p>
   </div>
 

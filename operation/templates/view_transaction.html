@@ -124,13 +124,13 @@
           <td>{{ transaction.date|date:"d/m/Y" }}</td>
 
           <td>
-            <a href="#">
+            <a href="{% url "update_transaction" transaction.tran_id %}">
               <i class="fas fa-edit green-icon"></i>
             </a>
           </td>
 
           <td>
-            <a href="#" onclick="return confirm('Are you sure you want to delete this transaction?');">
+            <a href="{% url "delete_transaction" transaction.tran_id %}" onclick="return confirm('Are you sure you want to delete this transaction?');">
               <i class="fas fa-trash red-icon"></i>
             </a>
           </td>

@@ -1,0 +1,97 @@
+{% include 'admin_navbar.html' %}
+{% block content %}
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+    }
+
+    body {
+        background-color: #f8f9fa;
+    }
+
+    .update-container {
+        width: 450px;
+        margin: 40px auto;
+        background: #fff;
+        padding: 30px 28px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        text-align: left;
+    }
+
+    .update-container h2 {
+        text-align: center;
+        font-size: 24px;
+        font-weight: 600;
+        margin-bottom: 25px;
+        color: #007bff;
+    }
+
+    label {
+        display: block;
+        font-weight: 500;
+        margin-bottom: 6px;
+        color: #333;
+    }
+
+    input, select {
+        width: 100%;
+        padding: 10px 12px;
+        margin-bottom: 18px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 15px;
+        outline: none;
+        transition: 0.2s ease;
+    }
+
+    input:focus, select:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 0 2px rgba(0,123,255,0.15);
+    }
+
+    .btn-update {
+        width: 100%;
+        background-color: #007bff;
+        color: #fff;
+        padding: 12px;
+        font-size: 15px;
+        font-weight: 600;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background 0.2s ease;
+    }
+
+    .btn-update:hover {
+        background-color: #0056d2;
+    }
+</style>
+
+<div class="update-container">
+    <h2>Update User</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <label for="username">User Name</label>
+        <input type="text" name="username" id="username" value="{{ user.username }}" required>
+
+        <label for="email">Email Address</label>
+        <input type="email" name="email" id="email" value="{{ user.email }}" disabled>
+
+        <label for="role">User Role</label>
+        <select name="userrole" id="role" required>
+            <option value="User" {% if user.userrole == "User" %}selected{% endif %}>User</option>
+            <option value="Admin" {% if user.userrole == "Admin" %}selected{% endif %}>Admin</option>
+        </select>
+
+        <button type="submit" class="btn-update">Update User</button>
+    </form>
+</div>
+
+{% endblock %}

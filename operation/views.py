@@ -9,12 +9,26 @@ from users.models import User
 def dashboard(request:HttpRequest):
     if request.COOKIES.get('email') is None:
         return redirect("login")
-    return render(request,'dashboard.html')
+    userid= request.COOKIES.get("userid")
+    totalincome = 0
+    totalexpense = 0
+    netbalance = 0
+    userdata = Transaction.objects.filter(userid = userid).order_by("-date")
 
+    for u in userdata:
+        if u.tran_type == "Income":
+            totalincome += u.amount
 
+    for u in userdata:
+        if u.tran_type == "Expense":
+            totalexpense += u.amount
 
+    netbalance = totalincome - totalexpense
+    return render(request,'dashboard.html',{"userdata":userdata,
+                                            "totalincome":totalincome,
+                                            "totalexpense":totalexpense,
+                                            "netbalance":netbalance})
 
-from django.contrib import messages
 
 def add_transaction(request: HttpRequest):
     if request.COOKIES.get('email') is None:
@@ -65,6 +79,43 @@ def view_transaction(request:HttpRequest):
     user_id = request.COOKIES.get('userid')
     transaction = Transaction.objects.filter(userid = user_id)
     return render(request,'view_transaction.html',{ "transaction": transaction})
+
+def delete_transaction(request:HttpRequest,tran_id:int):
+     if request.COOKIES.get('email') is None:
+        return redirect("login")
+     
+     transaction = Transaction.objects.filter(tran_id = tran_id)
+     transaction.delete()
+     messages.success(request,"Transaction Deleted Successfully..")
+     return redirect("view_transaction")
+
+
+def update_transaction(request: HttpRequest, tran_id: int):
+    if request.COOKIES.get('email') is None:
+        return redirect("login")
+
+    # Fetch the single transaction
+    transaction = Transaction.objects.get(tran_id=tran_id)
+
+    # Fetch categories for dropdown
+    category = Category.objects.all()
+
+    if request.method == "POST":
+        transaction.tran_type = request.POST.get("type")
+        transaction.title = request.POST.get("title")
+        transaction.amount = request.POST.get("amount")
+        transaction.category_id = request.POST.get("category")   # foreign key
+        transaction.date = request.POST.get("date")
+
+        transaction.save()
+
+        messages.success(request, "Transaction Updated Successfully..")
+        return redirect("view_transaction")
+
+    return render(request, "update_transaction.html", {
+        "transaction": transaction,
+        "category": category
+    })
 
 
 def tran_analysis(request:HttpRequest):

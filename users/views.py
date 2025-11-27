@@ -37,32 +37,36 @@ def validpassword(password: str) -> bool:
                             
   
 
-def login(request :HttpRequest):
+def login(request: HttpRequest):
     if request.method == "GET":
         if request.COOKIES.get('email'):
             return redirect("dashboard")
-        return render(request,"login.html")
-    
+        return render(request, "login.html")
+
     email = request.POST.get("email")
     password = request.POST.get("password")
 
-    user = User.objects.filter(email = email)
+    user_check = User.objects.filter(email=email)
 
-    if user.count == 0 :
-       return render(request, {'error':'Wrong Email Or Password..'})
-   
-    user = user.first()
-    passwordmatch = check_password(password, user.password)
-    if not passwordmatch:
-       return render(request,"login.html", {'error':'Wrong Email Or Password..'})
     
+    if not user_check.exists():
+        return render(request, "login.html", {'error': 'Wrong Email Or Password..'})
+
+    user = user_check.first()
+
+
+    if not check_password(password, user.password):
+        return render(request, "login.html", {'error': 'Wrong Email Or Password..'})
+
+   
     response = redirect("dashboard")
-    response.set_cookie('email', email)
-    response.set_cookie('userid',user.userid)
+    response.set_cookie('email', user.email)
+    response.set_cookie('userid', user.userid)
     response.set_cookie('username', user.username)
     response.set_cookie('userrole', user.userrole)
+
     return response
-          
+
     
 def singup(request:HttpRequest):
     if request.method == "GET":

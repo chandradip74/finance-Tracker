@@ -137,17 +137,17 @@
     <div class="stats-section">
       <div class="stat-card income-card">
         <h3>Total Income</h3>
-        <h2>₹0</h2>
+        <h2>₹{{totalincome}}</h2>
       </div>
 
       <div class="stat-card expense-card">
         <h3>Total Expense</h3>
-        <h2>₹0</h2>
+        <h2>₹{{totalexpense}}</h2>
       </div>
 
       <div class="stat-card balance-card">
         <h3>Net Balance</h3>
-        <h2>₹0</h2>
+        <h2>₹{{netbalance}}</h2>
       </div>
     </div>
 
@@ -156,6 +156,7 @@
     <table class="transactions-table">
       <thead>
         <tr>
+          <th>#</th>
           <th>Date</th>
           <th>Title</th>
           <th>Category</th>
@@ -165,21 +166,18 @@
       </thead>
 
       <tbody>
-        <tr>
-          <td>2025-01-01</td>
-          <td>Sample Title</td>
-          <td>Food</td>
-          <td>Expense</td>
-          <td class="amount-negative">₹500</td>
-        </tr>
-
-        <tr>
-          <td>2025-01-02</td>
-          <td>Salary</td>
-          <td>Income</td>
-          <td>Income</td>
-          <td class="amount-positive">₹15000</td>
-        </tr>
+        {% for userdata in userdata %}
+            {% if forloop.counter < 5 %}
+              <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{userdata.date}}</td>
+                <td>{{userdata.title}}</td>
+                <td>{{userdata.category}}</td>
+                <td>{{userdata.tran_type}}</td>
+                <td {% if userdata.tran_type == "Expense"%}class="amount-negative" {% else %} class="amount-positive"{% endif %}>₹{{userdata.amount}}</td>
+              </tr>
+            {% endif %}
+        {% endfor %}
       </tbody>
     </table>
     <footer class="footer">

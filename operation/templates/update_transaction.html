@@ -1,0 +1,136 @@
+
+{% include "navbar.html" %}
+{% block content %}
+
+<style>
+  .form-container {
+    width: 450px;
+    margin: 40px auto;
+    background: #fff;
+    padding: 32px 28px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    text-align: left;
+  }
+
+  .form-container h2 {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 25px;
+  }
+
+  label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 6px;
+    color: #222;
+  }
+
+  label span {
+    color: red;
+  }
+
+  input, select {
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 18px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  input:focus, select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0,123,255,0.15);
+  }
+
+  .button {
+    width: 100%;
+    background-color: #007bff;
+    color: #fff;
+    padding: 12px 0;
+    font-size: 15px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+
+  .button:hover {
+    background-color: #0056d2;
+  }
+</style>
+
+<div class="form-container">
+  <h2>Update Transaction</h2>
+
+  <form method="post">
+    {% csrf_token %}
+
+    <!-- Type -->
+    <label>Type <span>*</span></label>
+    <select name="type" id="type" required>
+      <option value="Expense" {% if transaction.tran_type == "Expense" %}selected{% endif %}>Expense</option>
+      <option value="Income" {% if transaction.tran_type == "Income" %}selected{% endif %}>Income</option>
+    </select>
+
+    <!-- Title -->
+    <label>Title <span>*</span></label>
+    <input type="text" name="title" value="{{ transaction.title }}" required />
+
+    <!-- Amount -->
+    <label>Amount (₹) <span>*</span></label>
+    <input type="number" name="amount" value="{{ transaction.amount }}" min="1" required />
+
+    <!-- Category -->
+    <label>Category</label>
+    <select name="category" id="category" required></select>
+
+    <!-- Date -->
+    <label>Date</label>
+    <input type="date" name="date" value="{{ transaction.date|date:'Y-m-d' }}" required />
+
+    <input type="submit" class="button" value="Update Transaction" />
+  </form>
+</div>
+
+<script>
+  const allCategories = [
+    {% for c in category %}
+      { id: "{{ c.cat_id }}", name: "{{ c.name }}", type: "{{ c.type }}" },
+    {% endfor %}
+  ];
+
+  const selectedCategory = "{{ transaction.cat_id }}";
+  const selectedType = "{{ transaction.tran_type }}";
+
+  const typeSelect = document.getElementById("type");
+  const categorySelect = document.getElementById("category");
+
+  function loadCategories() {
+    const selected = typeSelect.value;
+
+    categorySelect.innerHTML = "";
+
+    const filtered = allCategories.filter(c => c.type === selected);
+
+    filtered.forEach(cat => {
+      const option = document.createElement("option");
+      option.value = cat.id;
+      option.textContent = cat.name;
+
+      if (cat.id == selectedCategory) option.selected = true;
+
+      categorySelect.appendChild(option);
+    });
+  }
+
+  loadCategories();
+  typeSelect.addEventListener("change", loadCategories);
+</script>
+
+{% endblock %}

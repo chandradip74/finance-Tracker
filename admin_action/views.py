@@ -3,12 +3,34 @@ from django.http import HttpRequest, HttpResponse
 from django.contrib import messages
 from .models import Category
 from users.models import User
-# Create your views here.
+from operation.models import Transaction
+
 
 def admin_dashboard(request: HttpRequest):
     if not request.COOKIES.get('email') or request.COOKIES.get('userrole') != 'admin':
         return redirect("login")
-    return render(request, 'admin_dashboard.html')
+    
+    totaluser = User.objects.count()
+    totaltransaction = Transaction.objects.count()
+    totalcategory = Category.objects.count()
+    totalincome = 0
+    totalexpense = 0
+    transaction = Transaction.objects.all()
+    for t in transaction:
+        if t.tran_type == "Income":
+            totalincome += t.amount
+        
+    for t in transaction:
+        if t.tran_type == "Expense":
+            totalexpense += t.amount
+
+
+    return render(request, 'admin_dashboard.html',
+                  {"totaluser":totaluser,
+                   "totaltransaction":totaltransaction,
+                   "totalcategory":totalcategory,
+                   "totalincome":totalincome,
+                   "totalexpense":totalexpense})
 
 def add_category(request: HttpRequest):
     if request.COOKIES.get('email') is None or request.COOKIES.get('userrole') != 'admin':
@@ -40,6 +62,37 @@ def user_manage(request: HttpRequest):
     
     user = User.objects.all()
     return render(request, 'user_manage.html',{'user':user})
+
+def delete_user(request:HttpRequest,user_id:int):
+    if not request.COOKIES.get('email') or request.COOKIES.get('userrole') != 'admin':
+        return redirect("login")
+    
+    if user_id:
+        user = User.objects.filter(userid = user_id)
+        user.delete()
+    else:
+        messages.error(request,"Category not Deleted")
+
+    return redirect("user_manage")
+
+def update_user(request:HttpRequest,user_id:int):
+    if not request.COOKIES.get('email') or request.COOKIES.get('userrole') != 'admin':
+        return redirect("login")
+    
+    if user_id:
+        user = User.objects.filter(userid = user_id).first()
+    else:
+        return redirect("user_manage")
+    
+    if request.method == "POST":
+        user.username = request.POST.get("username")
+        user.userrole = request.POST.get("userrole")
+        user.save()
+
+        messages.success(request,"User Updated Successfully..")
+        return redirect("user_manage")
+
+    return render(request,"update_user.html",{"user":user})
 
 
 def category_manage(request: HttpRequest):

@@ -97,26 +97,24 @@ def update_transaction(request: HttpRequest, tran_id: int):
     # Fetch the single transaction
     transaction = Transaction.objects.get(tran_id=tran_id)
 
-    # Fetch categories for dropdown
-    category = Category.objects.all()
-
     if request.method == "POST":
         transaction.tran_type = request.POST.get("type")
         transaction.title = request.POST.get("title")
         transaction.amount = request.POST.get("amount")
-        transaction.category_id = request.POST.get("category")   # foreign key
+        transaction.category = request.POST.get("category")
         transaction.date = request.POST.get("date")
-
         transaction.save()
 
         messages.success(request, "Transaction Updated Successfully..")
         return redirect("view_transaction")
 
+    # Fetch ALL categories (both Income and Expense)
+    categories = Category.objects.all()
+
     return render(request, "update_transaction.html", {
         "transaction": transaction,
-        "category": category
+        "categories": categories
     })
-
 
 def tran_analysis(request:HttpRequest):
     if request.COOKIES.get('email') is None:

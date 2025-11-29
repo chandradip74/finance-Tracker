@@ -1,4 +1,3 @@
-
 {% include "navbar.html" %}
 {% block content %}
 
@@ -86,9 +85,34 @@
     <label>Amount (₹) <span>*</span></label>
     <input type="number" name="amount" value="{{ transaction.amount }}" min="1" required />
 
-    <!-- Category -->
-    <label>Category</label>
-    <select name="category" id="category" required></select>
+
+    <!-- Category with grouping -->
+<label for="category">Category <span>*</span></label>
+<select name="category" id="category" required>
+    <option value="">Select a category</option>
+    
+    <!-- Income Categories Group -->
+    <optgroup label="Income Categories">
+        {% for category in categories %}
+            {% if category.type == "Income" %}
+                <option value="{{ category.name }}" {% if transaction.category == category.name %}selected{% endif %}>
+                    {{ category.name }}
+                </option>
+            {% endif %}
+        {% endfor %}
+    </optgroup>
+    
+    <!-- Expense Categories Group -->
+    <optgroup label="Expense Categories">
+        {% for category in categories %}
+            {% if category.type == "Expense" %}
+                <option value="{{ category.name }}" {% if transaction.category == category.name %}selected{% endif %}>
+                    {{ category.name }}
+                </option>
+            {% endif %}
+        {% endfor %}
+    </optgroup>
+</select>
 
     <!-- Date -->
     <label>Date</label>
@@ -97,40 +121,5 @@
     <input type="submit" class="button" value="Update Transaction" />
   </form>
 </div>
-
-<script>
-  const allCategories = [
-    {% for c in category %}
-      { id: "{{ c.cat_id }}", name: "{{ c.name }}", type: "{{ c.type }}" },
-    {% endfor %}
-  ];
-
-  const selectedCategory = "{{ transaction.cat_id }}";
-  const selectedType = "{{ transaction.tran_type }}";
-
-  const typeSelect = document.getElementById("type");
-  const categorySelect = document.getElementById("category");
-
-  function loadCategories() {
-    const selected = typeSelect.value;
-
-    categorySelect.innerHTML = "";
-
-    const filtered = allCategories.filter(c => c.type === selected);
-
-    filtered.forEach(cat => {
-      const option = document.createElement("option");
-      option.value = cat.id;
-      option.textContent = cat.name;
-
-      if (cat.id == selectedCategory) option.selected = true;
-
-      categorySelect.appendChild(option);
-    });
-  }
-
-  loadCategories();
-  typeSelect.addEventListener("change", loadCategories);
-</script>
 
 {% endblock %}

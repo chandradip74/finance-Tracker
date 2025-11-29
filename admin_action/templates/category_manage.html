@@ -106,7 +106,7 @@
         <table>
             <thead>
                 <tr>
-                    <th>#</th>
+                    <th>Category Id</th>
                     <th>Category Name</th>
                     <th>Type</th>
                     <th>Action</th>
@@ -116,7 +116,7 @@
             <tbody>
                 {% for category in category %}
                 <tr>
-                    <td>{{ forloop.counter }}</td>
+                    <td>{{ category.cat_id }}</td>
                     <td>{{ category.name }}</td>
                     <td>{{ category.type }}</td>
                     <td>

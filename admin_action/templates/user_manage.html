@@ -82,7 +82,7 @@
     <table>
         <thead>
             <tr>
-                <th>#</th>
+                <th>User Id</th>
                 <th>User Name</th>
                 <th>Email</th>
                 <th>User Role</th>
@@ -95,7 +95,7 @@
 
                 {% if user.userrole != 'admin' %}
                     <tr>
-                        <td>{{ forloop.counter}}</td>
+                        <td>{{ user.userid}}</td>
                         <td>{{ user.username}}</td>
                         <td>{{ user.email}}</td>
                         <td>{{ user.userrole}}</td>

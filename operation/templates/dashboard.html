@@ -167,7 +167,7 @@
 
       <tbody>
         {% for userdata in userdata %}
-            {% if forloop.counter < 5 %}
+            {% if forloop.counter <= 5 %}
               <tr>
                 <td>{{forloop.counter}}</td>
                 <td>{{userdata.date}}</td>

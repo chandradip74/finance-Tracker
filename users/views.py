@@ -4,7 +4,7 @@ import re
 from .models import User
 from django.contrib.auth.hashers import make_password, check_password
 from operation.views import dashboard
-# Create your views here.
+
 
 def validemail(email: str) -> bool:
   pattern = "^([A-Za-z0-9]+[_\\-.]?)+[A-Za-z0-9]+@[A-Za-z0-9]+[.]?[A-Za-z0-9]+\\.[A-Za-z]+$"

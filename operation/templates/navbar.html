@@ -120,7 +120,7 @@
   <a href="{% url 'logout' %}" class="logout-icon" title="Logout">
     <i class="fa-solid fa-right-from-bracket"></i>
   </a>
-  <!-- Admin Action Button-->
+  
    <div>
     {% if request.COOKIES.userrole == "admin" %}
       <a href="{% url 'admin_dashboard' %}" class="nav-btn" style="position: absolute; top: 20px; left: 25px;">

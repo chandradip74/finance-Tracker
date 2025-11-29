@@ -70,28 +70,28 @@
   <form method="post">
     {% csrf_token %}
 
-    <!-- Type -->
+    
     <label>Type <span>*</span></label>
     <select name="type" id="type" required>
       <option value="Expense" {% if transaction.tran_type == "Expense" %}selected{% endif %}>Expense</option>
       <option value="Income" {% if transaction.tran_type == "Income" %}selected{% endif %}>Income</option>
     </select>
 
-    <!-- Title -->
+    
     <label>Title <span>*</span></label>
     <input type="text" name="title" value="{{ transaction.title }}" required />
 
-    <!-- Amount -->
+    
     <label>Amount (₹) <span>*</span></label>
     <input type="number" name="amount" value="{{ transaction.amount }}" min="1" required />
 
 
-    <!-- Category with grouping -->
+    
 <label for="category">Category <span>*</span></label>
 <select name="category" id="category" required>
     <option value="">Select a category</option>
     
-    <!-- Income Categories Group -->
+  
     <optgroup label="Income Categories">
         {% for category in categories %}
             {% if category.type == "Income" %}
@@ -102,7 +102,7 @@
         {% endfor %}
     </optgroup>
     
-    <!-- Expense Categories Group -->
+    
     <optgroup label="Expense Categories">
         {% for category in categories %}
             {% if category.type == "Expense" %}
@@ -114,7 +114,7 @@
     </optgroup>
 </select>
 
-    <!-- Date -->
+    
     <label>Date</label>
     <input type="date" name="date" value="{{ transaction.date|date:'Y-m-d' }}" required />
 

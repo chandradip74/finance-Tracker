@@ -149,59 +149,28 @@
 
   <div class="analysis-section">
 
-    <!-- Income Analysis -->
+
     <div class="card income">
       <h2><i class="fa-solid fa-arrow-trend-up"></i> Income Analysis</h2>
       <div class="stats">
-        <div class="stat-box">Average<br><b>₹{{ Income_avg }}</b></div>
-        <div class="stat-box">Count<br><b>{{ Income_count }}</b></div>
+        <div class="stat-box">Average<br><b>₹{{ Average_Income }}</b></div>
+        <div class="stat-box">Count<br><b>{{ incomecount }}</b></div>
         <div class="stat-box">Maximum<br><b>₹{{ Max_Income }}</b></div>
         <div class="stat-box">Minimum<br><b>₹{{ Min_Income }}</b></div>
       </div>
 
-      <h3>Income by Category</h3>
-      <table class="category-table">
-        <tr>
-          <th>Category</th>
-          <th>Total</th>
-        </tr>
-        {% for i in income_by_category %}
-        <tr>
-          <td>{{ i.category }}</td>
-          <td>₹{{ i.total }}</td>
-        </tr>
-        {% empty %}
-        <tr><td colspan="2">No Income Data</td></tr>
-        {% endfor %}
-      </table>
 
     </div>
 
-    <!-- Expense Analysis -->
+
     <div class="card expense">
       <h2><i class="fa-solid fa-arrow-trend-down"></i> Expense Analysis</h2>
       <div class="stats">
-        <div class="stat-box">Average<br><b>₹{{ Expense_avg }}</b></div>
-        <div class="stat-box">Count<br><b>{{ Expense_count }}</b></div>
+        <div class="stat-box">Average<br><b>₹{{ Average_Expense | floatformat:2 }}</b></div>
+        <div class="stat-box">Count<br><b>{{ expensecount }}</b></div>
         <div class="stat-box">Maximum<br><b>₹{{ Max_Expense }}</b></div>
         <div class="stat-box">Minimum<br><b>₹{{ Min_Expense }}</b></div>
       </div>
-
-      <h3>Expenses by Category</h3>
-      <table class="category-table">
-        <tr>
-          <th>Category</th>
-          <th>Total</th>
-        </tr>
-        {% for e in expense_by_category %}
-        <tr>
-          <td>{{ e.category }}</td>
-          <td>₹{{ e.total }}</td>
-        </tr>
-        {% empty %}
-        <tr><td colspan="2">No Expense Data</td></tr>
-        {% endfor %}
-      </table>
 
     </div>
 
